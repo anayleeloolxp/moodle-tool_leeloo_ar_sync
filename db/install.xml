@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="admin/tool/leeloo_ar_sync/db" VERSION="20141103" COMMENT="XMLDB file for Moodle tool/leeloo_ar_sync"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="tool_leeloo_ar_sync" COMMENT="Table to store Leeloo Courses">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Id of course to which this rule belongs."/>
+        <FIELD NAME="productid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Prodcut ID on Leeloo"/>
+        <FIELD NAME="enabled" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Is Enabled as Prodcut"/>
+        <FIELD NAME="productprice" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Prodcut Price on Leeloo"/>
+        <FIELD NAME="product_alias" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="Prodcut Alias on Leeloo"/>
+        <FIELD NAME="keytype" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Prodcut key allowed on Leeloo"/>
+        <FIELD NAME="keyprice" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Prodcut Key Price on Leeloo"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid" COMMENT="Index on courseid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
