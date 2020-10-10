@@ -22,5 +22,19 @@
         <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid" COMMENT="Index on courseid"/>
       </INDEXES>
     </TABLE>
+    <TABLE NAME="local_leeloo_ar_restrict" COMMENT="Table to store Leeloo A/R Sell">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="arid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Id of AR to which this rule belongs."/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="User ID"/>
+        <FIELD NAME="productid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Product ID"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="arid" UNIQUE="false" FIELDS="arid" COMMENT="Index on arid"/>
+      </INDEXES>
+    </TABLE>
   </TABLES>
 </XMLDB>
