@@ -146,7 +146,14 @@ if ($postars) {
             $infoleeloo = json_decode($output);
 
             if ($infoleeloo->status == 'true') {
-                $DB->execute("UPDATE {tool_leeloo_ar_sync} SET enabled = 0,productprice = '$courseprice',keytype = '$coursesynckeytype',keyprice = '$coursesynckeyprice' WHERE courseid = '$postcourseid'");
+                $DB->execute(
+                    "UPDATE {tool_leeloo_ar_sync} SET
+                        enabled = 0,
+                        productprice = '$courseprice',
+                        keytype = '$coursesynckeytype',
+                        keyprice = '$coursesynckeyprice'
+                    WHERE courseid = '$postcourseid'"
+                );
             }
         }
 
@@ -191,7 +198,12 @@ if ($postars) {
                 if ($infoleeloo->status == 'true') {
                     $productid = $infoleeloo->data->id;
                     $productalias = $infoleeloo->data->product_alias;
-                    $DB->execute("INSERT INTO {tool_leeloo_ar_sync} (courseid, productid, enabled, productprice,product_alias,keytype,keyprice)VALUES ('$postcourseid', '$productid', '1','$courseprice','$productalias','$coursesynckeytype','$coursesynckeyprice')");
+                    $DB->execute(
+                        "INSERT INTO {tool_leeloo_ar_sync}
+                            (courseid, productid, enabled, productprice,product_alias,keytype,keyprice)
+                        VALUES
+                            ('$postcourseid', '$productid', '1','$courseprice','$productalias','$coursesynckeytype','$coursesynckeyprice')"
+                    );
                 }
             } else {
 
@@ -235,7 +247,14 @@ if ($postars) {
                 $infoleeloo = json_decode($output);
 
                 if ($infoleeloo->status == 'true') {
-                    $DB->execute("UPDATE {tool_leeloo_ar_sync} SET enabled = 1,productprice = '$courseprice',keytype = '$coursesynckeytype',keyprice = '$coursesynckeyprice' WHERE courseid = '$postcourseid'");
+                    $DB->execute(
+                        "UPDATE {tool_leeloo_ar_sync} SET
+                            enabled = 1,
+                            productprice = '$courseprice',
+                            keytype = '$coursesynckeytype',
+                            keyprice = '$coursesynckeyprice'
+                        WHERE courseid = '$postcourseid'"
+                    );
                 }
             }
         }
@@ -302,7 +321,7 @@ if ($selcourse) {
             echo "<td><label for='course_$arid'>$aricon $arfullname</label><input type='hidden' value='$arfullname' name='fullnames[$arid]'></td>";
             echo "<td><input type='number' value='$courseproductprice' name='price[$arid]' id='price_$arid'></td>";
 
-            $keys_select = "<select name='keytype[$arid]'><option value='-1'>No</option>";
+            $keysselect = "<select name='keytype[$arid]'><option value='-1'>No</option>";
             if ($keysresponse->status == 'true') {
                 foreach ($keysresponse->data->keys as $keytype) {
                     if ($coursekeytype == $keytype->id) {
@@ -310,12 +329,12 @@ if ($selcourse) {
                     } else {
                         $selectedkeytype = '';
                     }
-                    $keys_select .= "<option $selectedkeytype value='$keytype->id'>$keytype->name</option>";
+                    $keysselect .= "<option $selectedkeytype value='$keytype->id'>$keytype->name</option>";
                 }
             }
-            $keys_select .= "</select>";
+            $keysselect .= "</select>";
 
-            echo "<td>$keys_select</td>";
+            echo "<td>$keysselect</td>";
 
             echo "<td><input type='number' value='$coursekeyprice' name='keyprice[$arid]' id='price_$arid'></td>";
             echo '</tr>';

@@ -35,6 +35,6 @@ function xmldb_tool_leeloo_ar_sync_upgrade($oldversion) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();
-        
+
     return true;
 }
