@@ -38,7 +38,7 @@ if (isset($_REQUEST['product_id']) && isset($_REQUEST['username'])) {
     $userid = $useridarr->id;
 
     if ($courseid && $userid) {
-        $DB->execute("INSERT INTO {local_leeloo_ar_restrict} (arid,userid, productid) VALUES ('$courseid', '$userid' , '$productid')");
+        $DB->execute("INSERT INTO {tool_leeloo_ar_sync_restrict} (arid,userid, productid) VALUES ('$courseid', '$userid' , '$productid')");
         $enrolled = 1;
     }
 }

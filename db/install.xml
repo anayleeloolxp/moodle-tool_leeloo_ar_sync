@@ -22,7 +22,7 @@
         <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid" COMMENT="Index on courseid"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="local_leeloo_ar_restrict" COMMENT="Table to store Leeloo A/R Sell">
+    <TABLE NAME="tool_leeloo_ar_sync_restrict" COMMENT="Table to store Leeloo A/R Sell">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="arid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Id of AR to which this rule belongs."/>
