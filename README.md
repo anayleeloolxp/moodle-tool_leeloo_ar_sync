@@ -1,2 +1,2 @@
 # Leeloo LXP A/R to Product Synchronizer
-This tool is used to Sell A/R on Leeloo.
+This tool is used to Sell A/R on Leeloo LXP, admin can selet a course and  then its A/R, and can set price to it. This makes the A/R a prodcut in Leeloo LXp ,and when the user tries to view it, he is asked to make payment to view it, Once payment is done he can access that A/R
