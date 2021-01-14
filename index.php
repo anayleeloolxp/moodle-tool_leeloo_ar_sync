@@ -70,7 +70,7 @@ if ($infoleeloolxp->status != 'false') {
 
 $leelooapibaseurl = 'https://leeloolxp.com/api/moodle_sell_course_plugin/';
 
-echo '<style>.sellcoursesynctable td,.sellcoursesynctable th {border: 1px solid;padding: 5px;}</style>';
+echo '<style>.sellcoursesynctable td,.sellcoursesynctable th {padding: 5px;}.sellcoursesynctable input, .sellcoursesynctable select {border: 1px solid #ced4da;padding: .375rem .75rem;height: calc(1.5em + .75rem + 2px);font-size: .9375rem;color: #495057;}.sellcoursesynctable label{margin-bottom: 0;}.sellcoursesynctablear {text-align: center;}.sellcoursesynctablear label {display: block;margin-bottom: 10px;font-size: 20px;}</style>';
 
 /**
  * Encrypt Data
@@ -269,7 +269,7 @@ if (!empty($error)) {
 
 $courses = $DB->get_records_sql('SELECT id,fullname FROM {course}');
 if (!empty($courses)) {
-    echo '<form method="get"><label for="">Select Course for which you want to sell A/R. </label>';
+    echo '<form method="get" class="sellcoursesynctable sellcoursesynctablear"><label for="">Select Course for which you want to sell A/R. </label>';
     echo '<select onchange="this.form.submit();" name="sel_course"><option value="0">Select</option>';
 
     foreach ($courses as $courseloop) {
@@ -291,7 +291,7 @@ if ($selcourse) {
 
     if (!empty($modinfo->cms)) {
         echo '<form method="post">
-        <table class="sellcoursesynctable">
+        <table class="sellcoursesynctable" style="width: 100%;">
         <thead>
             <th>&nbsp;</th>
             <th>A/R</th>
@@ -339,7 +339,7 @@ if ($selcourse) {
             echo "<td><input type='number' value='$coursekeyprice' name='keyprice[$arid]' id='price_$arid'></td>";
             echo '</tr>';
         }
-        echo '</table><button type="submit" value="Save and Create Product">Submit</button></form>';
+        echo '<tr><td colspan="5" style="text-align: center;"><button style="padding: 10px 20px;color: #222222;background: #eeeeee;border: 1px solid #cccccc;border-radius: 5px;"type="submit" value="Save and Create Product">Submit</button></td></tr></table></form>';
     }
 }
 
