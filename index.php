@@ -96,7 +96,9 @@ $post = [
 ];
 
 $url = $leelooapibaseurl . 'get_keytypes_by_licensekey.php';
-$postdata = '&license_key=' . encrption_data($vendorkey);
+$postdata = [
+    'license_key' => encrption_data($vendorkey),
+];
 $curl = new curl;
 $options = array(
     'CURLOPT_RETURNTRANSFER' => true,
