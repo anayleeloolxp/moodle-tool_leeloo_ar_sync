@@ -35,18 +35,20 @@ global $SESSION;
 
 $selcourse = optional_param('sel_course', 0, PARAM_RAW);
 
-$postars = optional_param('courses', null, PARAM_RAW);
-$postprices = optional_param('price', null, PARAM_RAW);
-$postkeytypes = optional_param('keytype', null, PARAM_RAW);
-$postkeyprices = optional_param('keyprice', null, PARAM_RAW);
-$postfullnames = optional_param('fullnames', null, PARAM_RAW);
+$postars = optional_param_array('courses', null, PARAM_RAW);
+$postprices = optional_param_array('price', null, PARAM_RAW);
+$postkeytypes = optional_param_array('keytype', null, PARAM_RAW);
+$postkeyprices = optional_param_array('keyprice', null, PARAM_RAW);
+$postfullnames = optional_param_array('fullnames', null, PARAM_RAW);
 
 $vendorkey = get_config('tool_leeloo_ar_sync', 'vendorkey');
 
 $leeloolxplicense = get_config('tool_leeloo_ar_sync')->license;
 
 $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
-$postdata = '&license_key=' . $leeloolxplicense;
+$postdata = [
+    'license_key' => $leeloolxplicense,
+];
 
 $curl = new curl;
 
@@ -70,7 +72,11 @@ if ($infoleeloolxp->status != 'false') {
 
 $leelooapibaseurl = 'https://leeloolxp.com/api/moodle_sell_course_plugin/';
 
-echo '<style>.sellcoursesynctable td,.sellcoursesynctable th {padding: 5px;}.sellcoursesynctable input, .sellcoursesynctable select {border: 1px solid #ced4da;padding: .375rem .75rem;height: calc(1.5em + .75rem + 2px);font-size: .9375rem;color: #495057;}.sellcoursesynctable label{margin-bottom: 0;}.sellcoursesynctablear {text-align: center;}.sellcoursesynctablear label {display: block;margin-bottom: 10px;font-size: 20px;}</style>';
+$tdthstyle = '.sellcoursesynctable td,.sellcoursesynctable th {padding: 5px;}';
+$inselstyle = 'border: 1px solid #ced4da;padding: .375rem .75rem;height: calc(1.5em + .75rem + 2px);font-size: .9375rem;color: #495057;';
+$insel = '.sellcoursesynctable input, .sellcoursesynctable select {'.$inselstyle.'}';
+$labelsyle = '.sellcoursesynctablear label {display: block;margin-bottom: 10px;font-size: 20px;}';
+echo '<style>'.$tdthstyle.$insel.'.sellcoursesynctable label{margin-bottom: 0;}.sellcoursesynctablear {text-align: center;}'.$labelsyle.'</style>';
 
 /**
  * Encrypt Data
@@ -82,7 +88,7 @@ function encrption_data($texttoencrypt) {
 
     $encryptionmethod = "AES-256-CBC";
     $secrethash = "25c6c7ff35b9979b151f2136cd13b0ff";
-    return openssl_encrypt($texttoencrypt, $encryptionmethod, $secrethash);
+    return @openssl_encrypt($texttoencrypt, $encryptionmethod, $secrethash);
 }
 
 $post = [
@@ -107,8 +113,6 @@ if ($postars) {
         if ($postcourse == 0) {
             $leeloodept = $DB->get_record_sql('SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ' . $postcourseid . '');
 
-            $productid = $leeloodept->productid;
-
             $courseprice = $postprices[$postcourseid];
             $coursesynckeyprice = $postkeyprices[$postcourseid];
             $coursesynckeytype = $postkeytypes[$postcourseid];
@@ -124,7 +128,7 @@ if ($postars) {
             $post = [
                 'license_key' => encrption_data($vendorkey),
                 'action' => encrption_data('update'),
-                'productid' => encrption_data($productid),
+                'productid' => encrption_data('0'),
                 'status' => encrption_data('0'),
                 'coursename' => encrption_data($coursesfullname),
                 'coursesummary' => encrption_data(''),
@@ -195,7 +199,7 @@ if ($postars) {
                     $error = get_string('nolicense', 'tool_leeloo_ar_sync');
                 }
                 $infoleeloo = json_decode($output);
-                if ($infoleeloo->status == 'true') {
+                if (@$infoleeloo->status == 'true') {
                     $productid = $infoleeloo->data->id;
                     $productalias = $infoleeloo->data->product_alias;
                     $DB->execute(
@@ -306,10 +310,10 @@ if ($selcourse) {
 
             $leelooardata = $DB->get_record_sql('SELECT * FROM {tool_leeloo_ar_sync} WHERE courseid = ' . $arid . '');
 
-            $courseenabled = $leelooardata->enabled;
-            $courseproductprice = $leelooardata->productprice;
-            $coursekeyprice = $leelooardata->keyprice;
-            $coursekeytype = $leelooardata->keytype;
+            @$courseenabled = $leelooardata->enabled;
+            @$courseproductprice = $leelooardata->productprice;
+            @$coursekeyprice = $leelooardata->keyprice;
+            @$coursekeytype = $leelooardata->keytype;
             if ($courseenabled == 1) {
                 $checkboxchecked = 'checked';
             } else {
@@ -339,7 +343,9 @@ if ($selcourse) {
             echo "<td><input type='number' value='$coursekeyprice' name='keyprice[$arid]' id='price_$arid'></td>";
             echo '</tr>';
         }
-        echo '<tr><td colspan="5" style="text-align: center;"><button style="padding: 10px 20px;color: #222222;background: #eeeeee;border: 1px solid #cccccc;border-radius: 5px;"type="submit" value="Save and Create Product">Submit</button></td></tr></table></form>';
+        $btnstyle = 'padding: 10px 20px;color: #222222;background: #eeeeee;border: 1px solid #cccccc;border-radius: 5px;';
+        $btnsub = '<button style="'.$btnstyle.'"type="submit" value="Save and Create Product">Submit</button>';
+        echo '<tr><td colspan="5" style="text-align: center;">'.$btnsub.'</td></tr></table></form>';
     }
 }
 
