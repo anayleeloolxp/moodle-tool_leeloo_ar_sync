@@ -102,7 +102,8 @@ $postdata = [
 $curl = new curl;
 $options = array(
     'CURLOPT_RETURNTRANSFER' => true,
-    'CURLOPT_POSTFIELDS' => $post,
+    'CURLOPT_HEADER' => false,
+    'CURLOPT_POST' => count($postdata),
 );
 
 if (!$output = $curl->post($url, $postdata, $options)) {
@@ -144,6 +145,8 @@ if ($postars) {
             $curl = new curl;
             $options = array(
                 'CURLOPT_RETURNTRANSFER' => true,
+                'CURLOPT_HEADER' => false,
+                'CURLOPT_POST' => count($post),
             );
 
             if (!$output = $curl->post($url, $post, $options)) {
@@ -195,6 +198,8 @@ if ($postars) {
                 $curl = new curl;
                 $options = array(
                     'CURLOPT_RETURNTRANSFER' => true,
+                    'CURLOPT_HEADER' => false,
+                    'CURLOPT_POST' => count($post),
                 );
 
                 if (!$output = $curl->post($url, $post, $options)) {
@@ -245,6 +250,8 @@ if ($postars) {
                 $curl = new curl;
                 $options = array(
                     'CURLOPT_RETURNTRANSFER' => true,
+                    'CURLOPT_HEADER' => false,
+                    'CURLOPT_POST' => count($post),
                 );
 
                 if (!$output = $curl->post($url, $post, $options)) {
