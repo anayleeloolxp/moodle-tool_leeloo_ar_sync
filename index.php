@@ -284,8 +284,8 @@ if (!empty($error)) {
 
 $courses = $DB->get_records_sql('SELECT id,fullname FROM {course}');
 if (!empty($courses)) {
-    echo '<form method="get" class="sellcoursesynctable sellcoursesynctablear"><label for="">Select Course for which you want to sell A/R. </label>';
-    echo '<select onchange="this.form.submit();" name="sel_course"><option value="0">Select</option>';
+    echo '<form method="get" class="sellcoursesynctable sellcoursesynctablear"><label for="">'.get_string('selcourse', 'tool_leeloo_ar_sync').'</label>';
+    echo '<select onchange="this.form.submit();" name="sel_course"><option value="0">'.get_string('select', 'tool_leeloo_ar_sync').'</option>';
 
     foreach ($courses as $courseloop) {
         if ($selcourse == $courseloop->id) {
@@ -309,10 +309,10 @@ if ($selcourse) {
         <table class="sellcoursesynctable" style="width: 100%;">
         <thead>
             <th>&nbsp;</th>
-            <th>A/R</th>
-            <th>Price($)</th>
-            <th>Key Allowed</th>
-            <th>Key Price</th>
+            <th>'.get_string('ar', 'tool_leeloo_ar_sync').'</th>
+            <th>'.get_string('price', 'tool_leeloo_ar_sync').'</th>
+            <th>'.get_string('keyallow', 'tool_leeloo_ar_sync').'</th>
+            <th>'.get_string('keyprice', 'tool_leeloo_ar_sync').'</th>
         </thead>';
         foreach ($modinfo->cms as $arloop) {
             $arid = $arloop->id;
@@ -336,7 +336,7 @@ if ($selcourse) {
             echo "<td><label for='course_$arid'>$aricon $arfullname</label><input type='hidden' value='$arfullname' name='fullnames[$arid]'></td>";
             echo "<td><input type='number' value='$courseproductprice' name='price[$arid]' id='price_$arid'></td>";
 
-            $keysselect = "<select name='keytype[$arid]'><option value='-1'>No</option>";
+            $keysselect = "<select name='keytype[$arid]'><option value='-1'>".get_string('no', 'tool_leeloo_ar_sync')."</option>";
             if ($keysresponse->status == 'true') {
                 foreach ($keysresponse->data->keys as $keytype) {
                     if ($coursekeytype == $keytype->id) {
@@ -355,7 +355,7 @@ if ($selcourse) {
             echo '</tr>';
         }
         $btnstyle = 'padding: 10px 20px;color: #222222;background: #eeeeee;border: 1px solid #cccccc;border-radius: 5px;';
-        $btnsub = '<button style="'.$btnstyle.'"type="submit" value="Save and Create Product">Submit</button>';
+        $btnsub = '<button style="'.$btnstyle.'"type="submit" value="Save and Create Product">'.get_string('submit', 'tool_leeloo_ar_sync').'</button>';
         echo '<tr><td colspan="5" style="text-align: center;">'.$btnsub.'</td></tr></table></form>';
     }
 }
