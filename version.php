@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin = new stdClass();
-$plugin->version = 2019062700; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2022050500; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2014111000; // Requires this Moodle version.
 $plugin->component = 'tool_leeloo_ar_sync'; // Full name of the plugin (used for diagnostics).
 $plugin->release = '1.0.0';
