@@ -175,7 +175,7 @@ if ($postars) {
         }
 
         if ($postcourse == 1) {
-            $leeloocourse = $DB->get_record_sql('SELECT COUNT(*) as countcourse FROM {tool_leeloo_ar_sync} WHERE courseid = ?', [$postcourseid]);
+            $leeloocourse = $DB->get_record_sql('SELECT COUNT(*) countcourse FROM {tool_leeloo_ar_sync} WHERE courseid = ?', [$postcourseid]);
 
             if ($leeloocourse->countcourse == 0) {
                 $courseprice = $postprices[$postcourseid];
