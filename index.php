@@ -122,6 +122,7 @@ $keysresponse = json_decode($output);
 if ($postars) {
     foreach ($postars as $postcourseid => $postcourse) {
         if ($postcourse == 0) {
+            $leeloodept = $DB->get_record_sql('SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ""', []);
             $leeloodept = $DB->get_record_sql('SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ?', [$postcourseid]);
 
             $courseprice = $postprices[$postcourseid];
