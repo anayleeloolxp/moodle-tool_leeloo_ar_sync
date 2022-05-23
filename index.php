@@ -79,10 +79,21 @@ if ($infoleeloolxp->status != 'false') {
 $leelooapibaseurl = 'https://leeloolxp.com/api/moodle_sell_course_plugin/';
 
 $tdthstyle = '.sellcoursesynctable td,.sellcoursesynctable th {padding: 5px;}';
-$inselstyle = 'border: 1px solid #ced4da;padding: .375rem .75rem;height: calc(1.5em + .75rem + 2px);font-size: .9375rem;color: #495057;';
+
+$inselstyle = 'border: 1px solid #ced4da;
+padding: .375rem .75rem;
+height: calc(1.5em + .75rem + 2px);
+font-size: .9375rem;color: #495057;';
+
 $insel = '.sellcoursesynctable input, .sellcoursesynctable select {' . $inselstyle . '}';
 $labelsyle = '.sellcoursesynctablear label {display: block;margin-bottom: 10px;font-size: 20px;}';
-echo '<style>' . $tdthstyle . $insel . '.sellcoursesynctable label{margin-bottom: 0;}.sellcoursesynctablear {text-align: center;}' . $labelsyle . '</style>';
+
+echo '<style>' .
+    $tdthstyle .
+    $insel .
+    '.sellcoursesynctable label{margin-bottom: 0;}.sellcoursesynctablear {text-align: center;}' .
+    $labelsyle .
+    '</style>';
 
 /**
  * Encrypt Data
@@ -122,7 +133,10 @@ $keysresponse = json_decode($output);
 if ($postars) {
     foreach ($postars as $postcourseid => $postcourse) {
         if ($postcourse == 0) {
-            $leeloodept = $DB->get_record_sql("SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ?", [$postcourseid]);
+            $leeloodept = $DB->get_record_sql(
+                "SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ?",
+                [$postcourseid]
+            );
 
             $courseprice = $postprices[$postcourseid];
             $coursesynckeyprice = $postkeyprices[$postcourseid];
@@ -176,7 +190,10 @@ if ($postars) {
         }
 
         if ($postcourse == 1) {
-            $leeloocourse = $DB->get_record_sql("SELECT COUNT(*) countcourse FROM {tool_leeloo_ar_sync} WHERE courseid = ?", [$postcourseid]);
+            $leeloocourse = $DB->get_record_sql(
+                "SELECT COUNT(*) countcourse FROM {tool_leeloo_ar_sync} WHERE courseid = ?",
+                [$postcourseid]
+            );
 
             if ($leeloocourse->countcourse == 0) {
                 $courseprice = $postprices[$postcourseid];
@@ -228,7 +245,10 @@ if ($postars) {
                 }
             } else {
 
-                $leeloodept = $DB->get_record_sql("SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ?", [$postcourseid]);
+                $leeloodept = $DB->get_record_sql(
+                    "SELECT productid FROM {tool_leeloo_ar_sync} WHERE courseid = ?",
+                    [$postcourseid]
+                );
 
                 $productid = $leeloodept->productid;
 
@@ -291,10 +311,19 @@ if (!empty($error)) {
     echo $OUTPUT->container($error, 'leeloo_ar_sync_myformerror');
 }
 
-$courses = $DB->get_records_sql("SELECT id,fullname FROM {course}");
+$courses = $DB->get_records_sql(
+    "SELECT id,fullname FROM {course}"
+);
+
 if (!empty($courses)) {
-    echo '<form method="get" class="sellcoursesynctable sellcoursesynctablear"><label for="">' . get_string('selcourse', 'tool_leeloo_ar_sync') . '</label>';
-    echo '<select onchange="this.form.submit();" name="sel_course"><option value="0">' . get_string('select', 'tool_leeloo_ar_sync') . '</option>';
+
+    echo '<form method="get" class="sellcoursesynctable sellcoursesynctablear"><label for="">' .
+        get_string('selcourse', 'tool_leeloo_ar_sync') .
+        '</label>';
+
+    echo '<select onchange="this.form.submit();" name="sel_course"><option value="0">' .
+        get_string('select', 'tool_leeloo_ar_sync') .
+        '</option>';
 
     foreach ($courses as $courseloop) {
         if ($selcourse == $courseloop->id) {
@@ -328,7 +357,10 @@ if ($selcourse) {
             $arfullname = $arloop->get_formatted_name();
             $aricon = '<img src="' . $arloop->get_icon_url() . '" class="icon" alt="" />&nbsp;';
 
-            $leelooardata = $DB->get_record_sql("SELECT * FROM {tool_leeloo_ar_sync} WHERE courseid = ?", [$arid]);
+            $leelooardata = $DB->get_record_sql(
+                "SELECT * FROM {tool_leeloo_ar_sync} WHERE courseid = ?",
+                [$arid]
+            );
 
             @$courseenabled = $leelooardata->enabled;
             @$courseproductprice = $leelooardata->productprice;
@@ -341,11 +373,18 @@ if ($selcourse) {
             }
 
             echo '<tr>';
-            echo "<td><input type='hidden' value='0' name='courses[$arid]'><input $checkboxchecked id='course_$arid' type='checkbox' name='courses[$arid]' value='1'></td>";
-            echo "<td><label for='course_$arid'>$aricon $arfullname</label><input type='hidden' value='$arfullname' name='fullnames[$arid]'></td>";
+            echo "<td><input type='hidden' value='0' name='courses[$arid]'>" .
+                "<input $checkboxchecked id='course_$arid' type='checkbox' name='courses[$arid]' value='1'></td>";
+
+            echo "<td><label for='course_$arid'>$aricon $arfullname</label>" .
+                "<input type='hidden' value='$arfullname' name='fullnames[$arid]'></td>";
+
             echo "<td><input type='number' value='$courseproductprice' name='price[$arid]' id='price_$arid'></td>";
 
-            $keysselect = "<select name='keytype[$arid]'><option value='-1'>" . get_string('no', 'tool_leeloo_ar_sync') . "</option>";
+            $keysselect = "<select name='keytype[$arid]'><option value='-1'>" .
+                get_string('no', 'tool_leeloo_ar_sync') .
+                "</option>";
+
             if ($keysresponse->status == 'true') {
                 foreach ($keysresponse->data->keys as $keytype) {
                     if ($coursekeytype == $keytype->id) {
@@ -364,7 +403,10 @@ if ($selcourse) {
             echo '</tr>';
         }
         $btnstyle = 'padding: 10px 20px;color: #222222;background: #eeeeee;border: 1px solid #cccccc;border-radius: 5px;';
-        $btnsub = '<button style="' . $btnstyle . '"type="submit" value="Save and Create Product">' . get_string('submit', 'tool_leeloo_ar_sync') . '</button>';
+        $btnsub = '<button style="' . $btnstyle . '"type="submit" value="Save and Create Product">' .
+            get_string('submit', 'tool_leeloo_ar_sync') .
+            '</button>';
+
         echo '<tr><td colspan="5" style="text-align: center;">' . $btnsub . '</td></tr></table></form>';
     }
 }

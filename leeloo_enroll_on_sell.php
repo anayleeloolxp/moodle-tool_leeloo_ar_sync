@@ -25,6 +25,11 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 require(__DIR__ . '/../../../config.php');
+
+require_login();
+
+global $USER;
+
 $enrolled = 0;
 
 $reqproductid = optional_param('product_id', 0, PARAM_RAW);
@@ -34,14 +39,25 @@ if (isset($reqproductid) && isset($requsername)) {
     $productid = $reqproductid;
     $username = $requsername;
 
-    $courseidarr = $DB->get_record_sql("SELECT courseid FROM {tool_leeloo_ar_sync} Where productid = ?", [$productid]);
+    $courseidarr = $DB->get_record_sql(
+        "SELECT courseid FROM {tool_leeloo_ar_sync} Where productid = ?",
+        [$productid]
+    );
     $courseid = $courseidarr->courseid;
 
-    $useridarr = $DB->get_record_sql("SELECT id FROM {user} Where username = ?", [$username]);
+    $useridarr = $DB->get_record_sql(
+        "SELECT id FROM {user} Where username = ?",
+        [$username]
+    );
     $userid = $useridarr->id;
 
+    $userid = $USER->id;
+
     if ($courseid && $userid) {
-        $DB->execute("INSERT INTO {tool_leeloo_ar_sync_restrict} (arid,userid, productid) VALUES (?, ? , ?)", [$courseid, $userid, $productid]);
+        $DB->execute(
+            "INSERT INTO {tool_leeloo_ar_sync_restrict} (arid,userid, productid) VALUES (?, ? , ?)",
+            [$courseid, $userid, $productid]
+        );
         $enrolled = 1;
     }
 }
